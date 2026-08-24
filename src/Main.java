@@ -25,7 +25,7 @@ public class Main {
                     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
                     ■ 1. Registrar paciente             ■
                     ■ 2. Registrar médico               ■
-                    ■ 3. Asignar turno                  ■
+                    ■ 3. Asignar turn                  ■
                     ■ 4. Listar turnos del día          ■
                     ■ 5. Cancelar turno                 ■
                     ■ 6. Ver turnos por médico          ■
@@ -88,7 +88,15 @@ public class Main {
                     Medico medico = new Medico(0, nombre, apellido, );
                     servicio.registrarPaciente(paciente);
                 }
-
+                case 3 :{}
+                case 4 :{}
+                case 5 :{}
+                case 6 :{}
+                case 7 :{}
+                case 8 :{}
+                case 9 :{}
+                case 10 :{}
+                case 0 :{}
             }
         }
     }

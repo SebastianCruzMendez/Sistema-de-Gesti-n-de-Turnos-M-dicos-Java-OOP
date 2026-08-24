@@ -17,18 +17,21 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 
 public class ClinicaService implements Consultable {
-    private List<Paciente> pacientes;
-    private List<Medico> medicos;
-    private List<Turno> turnos;
+
+    private final List<Paciente> pacientes = new ArrayList<>();
+    private final List<Medico> medicos = new ArrayList<>();
+    private final List<Turno> turnos = new ArrayList<>();
+
 
     @Override
     public List<Turno> listarTurnosDelDia(LocalDate fecha) {
         return List.of();
     }
-
+//----------Andres -------------------------
     public void registrarPaciente(Paciente p) {
         // Step 1: Llama a p.esValido() — si retorna false, imprime error y sale
         if (p == null || !p.esValido()) {
@@ -72,7 +75,7 @@ public class ClinicaService implements Consultable {
         // Retorna null si no encuentra ninguno. No imprime nada.
         return null;
     }
-
+// --------Fin Andres ----------------
     // ----------------- Camilo---------------------------
     public void asignarTurno(Turno t) {
         //verifica que el paciente del turno exista
@@ -123,23 +126,21 @@ public class ClinicaService implements Consultable {
     }
 
 
-
-        // --- MÉTODOS DE MÉDICO ---
-        public Medico buscarPorNombreApellido (String nombre, String apellido){
-            if (nombre == null || apellido == null) {
-                return null;
-            }
-            for (Object obj : medicos) {
-                if (obj instanceof Medico) {
-                    Medico m = (Medico) obj;
-                    if (m.getNombre().equalsIgnoreCase(nombre.trim()) && m.getApellido().equalsIgnoreCase(apellido.trim())) {
-                        return m;
-                    }
+    // --- MÉTODOS DE MÉDICO Brayan---
+    public Medico buscarPorNombreApellido(String nombre, String apellido) {
+        if (nombre == null || apellido == null) {
+            return null;
+        }
+        for (Object obj : medicos) {
+            if (obj instanceof Medico) {
+                Medico m = (Medico) obj;
+                if (m.getNombre().equalsIgnoreCase(nombre.trim()) && m.getApellido().equalsIgnoreCase(apellido.trim())) {
+                    return m;
                 }
             }
             return null;
         }
-
+    }
         public void listarMedicos () {
             if (medicos.isEmpty()) {
                 System.out.println("No hay médicos registrados.");
@@ -160,15 +161,16 @@ public class ClinicaService implements Consultable {
 
         }
 
-    public List<Paciente> getPacientes () {
-        return pacientes;
-    }
+        // fin---------------- Brayan ---------------------
+        public List<Paciente> getPacientes () {
+            return pacientes;
+        }
 
-    public List<Medico> getMedicos () {
-        return medicos;
-    }
+        public List<Medico> getMedicos () {
+            return medicos;
+        }
 
-    public List<Turno> getTurnos () {
-        return turnos;
+        public List<Turno> getTurnos () {
+            return turnos;
+        }
     }
-}
