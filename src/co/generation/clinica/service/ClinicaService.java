@@ -1,5 +1,6 @@
 package co.generation.clinica.service;
 
+
 import co.generation.clinica.exceptions.MedicoNoDisponibleEnEsaHoraException;
 import co.generation.clinica.exceptions.MedicoNoExisteException;
 import co.generation.clinica.exceptions.PacienteNoExisteException;
@@ -24,21 +25,7 @@ public class ClinicaService implements Consultable {
     private final List<Medico> medicos = new ArrayList<>();
     private final List<Turno> turnos = new ArrayList<>();
 
-    public List<Paciente> getPacientes() {
-        return pacientes;
-    }
-
-    public List<Medico> getMedicos() {
-        return medicos;
-    }
-
-    public List<Turno> getTurnos() {
-        return turnos;
-    }
-    private List<Paciente> pacientes;
-    private List<Medico> medicos;
-    private List<Turno> turnos;
-
+   
     @Override
     public List<Turno> listarTurnosDelDia(LocalDate fecha) {
         return List.of();
@@ -46,6 +33,49 @@ public class ClinicaService implements Consultable {
 
     public void registrarPaciente(Paciente p) {
         p.esValido();
+    }
+     public void registrarPaciente(Paciente p) {
+        // Step 1: Llama a p.esValido() — si retorna false, imprime error y sale
+        if (p == null || !p.esValido()) {
+            System.out.println("Error: Los datos del paciente no son válidos.");
+            return;
+        }
+
+        // Step 2: Verifica que no exista otro paciente con la misma cédula (usa contains())
+        if (pacientes.contains(p)) {
+            System.out.println("Error: Ya existe un paciente registrado con la cédula " + p.getCedula());
+            return;
+        }
+
+        // Step 3: Asigna el id (máximo id + 1, o 1 si la lista está vacía)
+        int maxId = 0;
+        for (Paciente paciente : pacientes) {
+            if (paciente.getId() > maxId) {
+                maxId = paciente.getId();
+            }
+        }
+        p.setId(maxId + 1);
+
+        // Step 4: Agrega p a la lista
+        pacientes.add(p);
+
+        // Step 5: Imprime mensaje de éxito con los datos del paciente
+        System.out.println("Paciente registrado exitosamente: " + p.getDatosRegistro());
+    }
+
+    // 2. buscarPorCedula
+    public Paciente buscarPorCedula(String cedula) {
+        if (cedula == null) return null;
+
+        // Recorre la lista con un for. Retorna el Paciente cuya cédula coincida exactamente.
+        for (Paciente p : pacientes) {
+            if (p.getCedula().equals(cedula.trim())) {
+                return p;
+            }
+        }
+
+        // Retorna null si no encuentra ninguno. No imprime nada.
+        return null;
     }
 
 // ----------------- Camilo---------------------------
@@ -102,55 +132,7 @@ public class ClinicaService implements Consultable {
         return List.of();
     }
 
-    public void registrarPaciente(Paciente p) {
-        if (!p.esValido()) {
-            System.out.println("Error: Los datos del paciente no son válidos.");
-            return;
-        }
-        if (pacientes.contains(p)) {
-            System.out.println("Error: Ya existe un paciente con la cédula " + p.getCedula());
-            return;
-        }
-        int nuevoId = pacientes.stream()
-                .mapToInt(Paciente::getId)
-                .max()
-                .orElse(0) + 1;
-        p.setId(nuevoId);
-        pacientes.add(p);
-        System.out.println("Paciente registrado con éxito: " + p.getDatosRegistro());
-    }
-
-    public void listarPacientes() {
-        if (pacientes.isEmpty()) {
-            System.out.println("No hay pacientes registrados.");
-            return;
-        }
-        List<Paciente> copia = new ArrayList<>(pacientes);
-        copia.sort(Comparator.comparing(Paciente::getApellido)
-                .thenComparing(Paciente::getNombre));
-        for (Paciente p : copia) {
-            System.out.println(p);
-        }
-    }
     public List<Paciente> getPacientes() {
-
-    public void registrarMedico(Medico m) {
-        if (!m.esValido()) {
-            System.out.println("Error: Los datos del médico no son válidos.");
-            return;
-        }
-        if (medicos.contains(m)) {
-            System.out.println("Error: Ya existe un médico registrado con ese nombre y apellido.");
-            return;
-        }
-        int nuevoId = medicos.stream()
-                .mapToInt(Medico::getId)
-                .max()
-                .orElse(0) + 1;
-        m.setId(nuevoId);
-        medicos.add(m);
-        System.out.println("Médico registrado con éxito: " + m.getDatosRegistro());
-    }
 
     public Medico buscarPorNombreApellido(String nombre, String apellido) {
         if (nombre == null || apellido == null) {
