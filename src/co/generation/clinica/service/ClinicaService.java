@@ -17,12 +17,15 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class ClinicaService implements Consultable {
-    private List<Paciente> pacientes;
-    private List<Medico> medicos;
-    private List<Turno> turnos;
 
+    private final List<Paciente> pacientes = new ArrayList<>();
+    private final List<Medico> medicos = new ArrayList<>();
+    private final List<Turno> turnos = new ArrayList<>();
+
+   
     @Override
     public List<Turno> listarTurnosDelDia(LocalDate fecha) {
         return List.of();
@@ -131,18 +134,14 @@ public class ClinicaService implements Consultable {
 
     public List<Paciente> getPacientes() {
 
-    // --- MÉTODOS DE MÉDICO ---
     public Medico buscarPorNombreApellido(String nombre, String apellido) {
         if (nombre == null || apellido == null) {
             return null;
         }
-        for (Object obj : medicos) {
-            if (obj instanceof Medico) {
-                Medico m = (Medico) obj;
-                if (m.getNombre().equalsIgnoreCase(nombre.trim()) &&
-                        m.getApellido().equalsIgnoreCase(apellido.trim())) {
-                    return m;
-                }
+        for (Medico m : medicos) {
+            if (m.getNombre().equalsIgnoreCase(nombre.trim()) &&
+                    m.getApellido().equalsIgnoreCase(apellido.trim())) {
+                return m;
             }
         }
         return null;
@@ -154,15 +153,10 @@ public class ClinicaService implements Consultable {
             return;
         }
 
-        List<Medico> copia = new ArrayList<>();
-        for (Object obj : medicos) {
-            if (obj instanceof Medico) {
-                copia.add((Medico) obj);
-            }
-        }
-
+        List<Medico> copia = new ArrayList<>(medicos);
         copia.sort(Comparator.comparing(Medico::getEspecialidad)
                 .thenComparing(Medico::getApellido, String.CASE_INSENSITIVE_ORDER));
+
         for (Medico m : copia) {
             System.out.println(m);
         }
