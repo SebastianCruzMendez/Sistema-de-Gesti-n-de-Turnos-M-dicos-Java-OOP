@@ -17,6 +17,16 @@ public class Paciente implements Registrable {
         this.apellido = apellido;
         this.telefono = telefono;
     }
+    @Override
+    public String getDatosRegistro() {
+        return "";
+    }
+
+    @Override
+    public boolean esValido() {
+        return false;
+    }
+
 public Paciente registrar(String nombre, String cedula, String apellido, String telefono) {
 
         return new Paciente(0, nombre, cedula, apellido, telefono);
@@ -65,6 +75,7 @@ public Paciente reconstruir(int id, String nombre, String cedula, String apellid
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
 
 
 }

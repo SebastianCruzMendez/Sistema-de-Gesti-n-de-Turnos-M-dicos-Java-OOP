@@ -15,6 +15,15 @@ public class Medico implements Registrable {
         this.apellido = apellido;
         this.especialidad = especialidad;
     }
+    @Override
+    public String getDatosRegistro() {
+        return "";
+    }
+
+    @Override
+    public boolean esValido() {
+        return false;
+    }
 
     public int getId() {
         return id;
@@ -47,6 +56,7 @@ public class Medico implements Registrable {
     public void setEspecialidad(Especialidad especialidad) {
         this.especialidad = especialidad;
     }
+
 
 
 }

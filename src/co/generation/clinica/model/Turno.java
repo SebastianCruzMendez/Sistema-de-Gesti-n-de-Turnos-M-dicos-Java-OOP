@@ -1,7 +1,7 @@
 package co.generation.clinica.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Turno {
     int id;
@@ -16,6 +16,21 @@ public class Turno {
         this.medico = medico;
         this.fechaHora = fechaHora;
         this.estado = estado;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Turno turno = (Turno) o;
+        return Objects.equals(medico, turno.medico) &&
+                Objects.equals(fechaHora, turno.fechaHora);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(medico, fechaHora);
     }
 
     public int getId() {
