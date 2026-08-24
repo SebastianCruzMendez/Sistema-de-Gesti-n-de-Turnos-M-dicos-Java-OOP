@@ -92,7 +92,32 @@ public class Main {
                 case 4 :{}
                 case 5 :{}
                 case 6 :{}
-                case 7 :{}
+                case 7 : {
+                    System.out.println("■■■ VER TURNOS POR PACIENTE ■■■");
+                    System.out.println("Ingresa la cédula del paciente:");
+                    String cedulaBusqueda = scan.next();
+
+
+                    Paciente pacienteEncontrado = servicio.buscarPorCedula(cedulaBusqueda);
+
+                    if (pacienteEncontrado == null) {
+                        System.out.println("Error: No existe ningún paciente registrado con la cédula " + cedulaBusqueda);
+                    } else {
+
+                        List<Turno> misTurnos = servicio.buscarPorPaciente(pacienteEncontrado);
+
+
+                        if (misTurnos.isEmpty()) {
+                            System.out.println("El paciente " + pacienteEncontrado.getNombre() + " no tiene turnos asignados.");
+                        } else {
+                            System.out.println("--- Turnos de " + pacienteEncontrado.getNombre() + " " + pacienteEncontrado.getApellido() + " ---");
+                            for (Turno t : misTurnos) {
+                                System.out.println(t.toString());
+                            }
+                        }
+                    }
+                    break;
+                }
                 case 8 :{}
                 case 9 :{}
                 case 10 :{}

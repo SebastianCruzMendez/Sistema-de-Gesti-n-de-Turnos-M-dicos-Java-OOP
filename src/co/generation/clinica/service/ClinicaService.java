@@ -122,7 +122,20 @@ public class ClinicaService implements Consultable {
 
     @Override
     public List<Turno> buscarPorPaciente(Paciente paciente) {
-        return List.of();
+        List<Turno> listaResultado = new ArrayList<>();
+
+        if (paciente == null) {
+            return listaResultado;
+        }
+
+
+        for (Turno t : turnos) {
+
+            if (t.getPaciente().equals(paciente)) {
+                listaResultado.add(t);
+            }
+        }
+        return listaResultado;
     }
 
 
