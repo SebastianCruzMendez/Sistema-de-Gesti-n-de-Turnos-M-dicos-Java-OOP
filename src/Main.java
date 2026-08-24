@@ -1,7 +1,5 @@
 import co.generation.clinica.datos.DatosCSV;
-import co.generation.clinica.model.Especialidad;
-import co.generation.clinica.model.Medico;
-import co.generation.clinica.model.Paciente;
+import co.generation.clinica.model.*;
 import co.generation.clinica.service.ClinicaService;
 
 import java.util.Scanner;
@@ -18,6 +16,7 @@ public class Main {
         while(opcion ){
             String nombre;
             String apellido;
+            String cedula;
 
             int opcionUsuario;
             System.out.println("""
@@ -49,7 +48,7 @@ public class Main {
                     System.out.println("Ingresa tu Apellido");
                     apellido = scan.nextLine();
                     System.out.println("Ingresa tu cedula");
-                    String cedula = scan.nextLine();
+                    cedula = scan.nextLine();
                     System.out.println("Ingresa tu telefono");
                     String telefono = scan.nextLine();
                     Paciente paciente = new Paciente(0, nombre, apellido, cedula, telefono);
@@ -104,15 +103,41 @@ public class Main {
                     Medico medico = new Medico(0, nombre, apellido, especialidad);
                     servicio.registrarMedico(medico);
                 }
-                case 3 :{}
+                case 3 :{
+                    //Asignar turno
+                    System.out.println("Por favor ingresa los siguientes datos");
+                    System.out.println("Ingresa  cedula del paciente");
+                    cedula = scan.nextLine();
+                    System.out.println("Ingresa Nombre del Medico");
+                    nombre = scan.nextLine();
+                    System.out.println("Ingresa Apellido del Medico");
+                    apellido = scan.nextLine();
+
+                    Paciente paciente = servicio.buscarPorCedula(cedula);
+                    Medico medico = servicio.buscarPorNombreApellido(nombre, apellido);
+                    Turno turno = new Turno(0, paciente, medico, EstadoTurno.PENDIENTE );
+                    servicio.asignarTurno(turno);
+                }
+
                 case 4 :{}
                 case 5 :{}
                 case 6 :{}
                 case 7 :{}
                 case 8 :{}
                 case 9 :{}
-                case 10 :{}
-                case 0 :{}
+                case 10 :{servicio.listarPacientes();}
+                case 0 :{
+                    System.out.println("""
+                                ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+                                ■          HASTA PRONTO                ■
+                                ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+                                    ■■■■■■■ DATOS GUARDADOS ■■■■■■■■
+                                ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+                                
+                                """);
+                    DatosCSV.guardar(servicio);
+                    opcion = false;
+                }
             }
         }
     }

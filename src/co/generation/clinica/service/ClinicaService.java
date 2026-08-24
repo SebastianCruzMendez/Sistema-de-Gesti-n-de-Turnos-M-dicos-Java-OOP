@@ -131,17 +131,18 @@ public class ClinicaService implements Consultable {
         if (nombre == null || apellido == null) {
             return null;
         }
-        for (Object obj : medicos) {
-            if (obj instanceof Medico) {
-                Medico m = (Medico) obj;
-                if (m.getNombre().equalsIgnoreCase(nombre.trim()) && m.getApellido().equalsIgnoreCase(apellido.trim())) {
-                    return m;
+
+        for (Medico obj : medicos) {
+            if (Objects.equals(obj.getNombre(), nombre) && Objects.equals(obj.getApellido(), apellido)) {
+
+                if (obj.getNombre().equalsIgnoreCase(nombre.trim()) && obj.getApellido().equalsIgnoreCase(apellido.trim())) {
+                    return obj;
                 }
             }
-            return null;
         }
-        return
+    return null;
     }
+
         public void listarMedicos () {
             if (medicos.isEmpty()) {
                 System.out.println("No hay médicos registrados.");
