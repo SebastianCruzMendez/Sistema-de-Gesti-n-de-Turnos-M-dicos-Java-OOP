@@ -140,6 +140,7 @@ public class ClinicaService implements Consultable {
             }
             return null;
         }
+        return
     }
         public void listarMedicos () {
             if (medicos.isEmpty()) {

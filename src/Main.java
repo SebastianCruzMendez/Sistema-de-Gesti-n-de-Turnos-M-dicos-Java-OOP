@@ -1,4 +1,5 @@
 import co.generation.clinica.datos.DatosCSV;
+import co.generation.clinica.model.Especialidad;
 import co.generation.clinica.model.Medico;
 import co.generation.clinica.model.Paciente;
 import co.generation.clinica.service.ClinicaService;
@@ -25,7 +26,7 @@ public class Main {
                     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
                     ■ 1. Registrar paciente             ■
                     ■ 2. Registrar médico               ■
-                    ■ 3. Asignar turn                  ■
+                    ■ 3. Asignar turno                  ■
                     ■ 4. Listar turnos del día          ■
                     ■ 5. Cancelar turno                 ■
                     ■ 6. Ver turnos por médico          ■
@@ -57,6 +58,8 @@ public class Main {
                 case 2 : {
                     boolean opcionEspecialidadWhile = true;
                     int opcionEspecialidad;
+                    Especialidad especialidad = null;
+
                     System.out.println("Por favor ingresa los siguientes datos");
                     System.out.println("Ingresa tu Nombre");
                     nombre = scan.nextLine();
@@ -76,17 +79,30 @@ public class Main {
                                 
                                 """);
                         opcionEspecialidad = scan.nextInt();
-                        if (opcionEspecialidad <= 5 && opcionEspecialidad >= 1) {
-                            System.out.println("Por favor ingrese una opcion valida");
-                        }else {
-                            opcionEspecialidadWhile = false;
+                        switch (opcionEspecialidad){
+                            case 1 -> {
+                                especialidad = Especialidad.GENERAL;
+                                opcionEspecialidadWhile = false;
+                            }
+                            case 2 -> {
+                                especialidad = Especialidad.PEDIATRIA;
+                                opcionEspecialidadWhile = false;
+                            }
+                            case 3 -> {
+                                especialidad = Especialidad.CARDIOLOGIA;
+                                opcionEspecialidadWhile = false;
+                            }
+                            case 4 -> {
+                                especialidad = Especialidad.URGENCIAS;
+                                opcionEspecialidadWhile = false;
+                            }
+                            default -> System.out.println("Por favor ingrese una opcion valida");
                         }
                     }while (opcionEspecialidadWhile);
-                    switch (opcionEspecialidad){
-                        case 1 ->
-                    }
-                    Medico medico = new Medico(0, nombre, apellido, );
-                    servicio.registrarPaciente(paciente);
+
+
+                    Medico medico = new Medico(0, nombre, apellido, especialidad);
+                    servicio.registrarMedico(medico);
                 }
                 case 3 :{}
                 case 4 :{}
