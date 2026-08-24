@@ -1,4 +1,10 @@
 package co.generation.clinica.model;
 
-public class Especialidad {
+public enum Especialidad {
+
+    GENERAL,
+    PEDIATRIA,
+    CARDIOLOGIA,
+    URGENCIAS
+
 }
