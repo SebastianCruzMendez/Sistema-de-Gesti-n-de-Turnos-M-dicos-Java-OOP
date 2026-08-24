@@ -31,7 +31,8 @@ public class ClinicaService implements Consultable {
     public List<Turno> listarTurnosDelDia(LocalDate fecha) {
         return List.of();
     }
-//----------Andres -------------------------
+
+    //----------Andres -------------------------
     public void registrarPaciente(Paciente p) {
         // Step 1: Llama a p.esValido() — si retorna false, imprime error y sale
         if (p == null || !p.esValido()) {
@@ -75,7 +76,8 @@ public class ClinicaService implements Consultable {
         // Retorna null si no encuentra ninguno. No imprime nada.
         return null;
     }
-// --------Fin Andres ----------------
+
+    // --------Fin Andres ----------------
     // ----------------- Camilo---------------------------
     public void asignarTurno(Turno t) {
         //verifica que el paciente del turno exista
@@ -131,56 +133,58 @@ public class ClinicaService implements Consultable {
         if (nombre == null || apellido == null) {
             return null;
         }
+
+        for (Medico obj : medicos) {
+            if (Objects.equals(obj.getNombre(), nombre) && Objects.equals(obj.getApellido(), apellido)) {
+
+                if (obj.getNombre().equalsIgnoreCase(nombre.trim()) && obj.getApellido().equalsIgnoreCase(apellido.trim())) {
+                    return obj;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void listarMedicos() {
+        if (medicos.isEmpty()) {
+            System.out.println("No hay médicos registrados.");
+            return;
+        }
+
+        List<Medico> copia = new ArrayList<>();
         for (Object obj : medicos) {
             if (obj instanceof Medico) {
-                Medico m = (Medico) obj;
-                if (m.getNombre().equalsIgnoreCase(nombre.trim()) && m.getApellido().equalsIgnoreCase(apellido.trim())) {
-                    return m;
-                }
+                copia.add((Medico) obj);
             }
-            return null;
+        }
+
+        copia.sort(Comparator.comparing(Medico::getEspecialidad).thenComparing(Medico::getApellido, String.CASE_INSENSITIVE_ORDER));
+        for (Medico m : copia) {
+            System.out.println(m);
+        }
+
+    }
+
+    // fin---------------- Brayan ---------------------
+    // inicio sebastian_______________________________________
+    // --- MÉTODO 1: listarPacientes() ---
+    public void listarPacientes() {
+        if (pacientes.isEmpty()) {
+            System.out.println("No hay pacientes registrados.");
+            return;
+        }
+        // Crear copia para no alterar la lista original al ordenar
+        List<Paciente> copia = new ArrayList<>(pacientes);
+
+        // Ordenar por apellido y luego por nombre usando Comparator
+        copia.sort(Comparator.comparing(Paciente::getApellido)
+                .thenComparing(Paciente::getNombre));
+
+        // Imprimir cada paciente con su toString()
+        for (Paciente p : copia) {
+            System.out.println(p);
         }
     }
-        public void listarMedicos () {
-            if (medicos.isEmpty()) {
-                System.out.println("No hay médicos registrados.");
-                return;
-            }
-
-            List<Medico> copia = new ArrayList<>();
-            for (Object obj : medicos) {
-                if (obj instanceof Medico) {
-                    copia.add((Medico) obj);
-                }
-            }
-
-            copia.sort(Comparator.comparing(Medico::getEspecialidad).thenComparing(Medico::getApellido, String.CASE_INSENSITIVE_ORDER));
-            for (Medico m : copia) {
-                System.out.println(m);
-            }
-
-        }
-
-        // fin---------------- Brayan ---------------------
-    // inicio sebastian_______________________________________
-        // --- MÉTODO 1: listarPacientes() ---
-        public void listarPacientes() {
-            if (pacientes.isEmpty()) {
-                System.out.println("No hay pacientes registrados.");
-                return;
-            }
-            // Crear copia para no alterar la lista original al ordenar
-            List<Paciente> copia = new ArrayList<>(pacientes);
-
-            // Ordenar por apellido y luego por nombre usando Comparator
-            copia.sort(Comparator.comparing(Paciente::getApellido)
-                    .thenComparing(Paciente::getNombre));
-
-            // Imprimir cada paciente con su toString()
-            for (Paciente p : copia) {
-                System.out.println(p);
-            }
-        }
 
     // --- MÉTODO 2: registrarMedico(Medico m) ---
     public void registrarMedico(Medico m) {
@@ -203,20 +207,22 @@ public class ClinicaService implements Consultable {
                 .orElse(0) + 1;
         m.setId(nuevoId);
 
+
         // 4. Agregar a la lista e imprimir mensaje de éxito
         medicos.add(m);
         System.out.println("Médico registrado con éxito: " + m.getDatosRegistro());
     }
+
     //Final sebastian________________________________________________________________________
-        public List<Paciente> getPacientes () {
-            return pacientes;
-        }
-
-        public List<Medico> getMedicos () {
-            return medicos;
-        }
-
-        public List<Turno> getTurnos () {
-            return turnos;
-        }
+    public List<Paciente> getPacientes() {
+        return pacientes;
     }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+}
