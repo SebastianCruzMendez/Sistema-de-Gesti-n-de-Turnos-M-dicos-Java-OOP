@@ -10,11 +10,11 @@ public class Turno {
     LocalDateTime fechaHora;
     EstadoTurno estado;
 
-    public Turno(int id, Paciente paciente, Medico medico, EstadoTurno estado) {
+    public Turno(int id, Paciente paciente, Medico medico, LocalDateTime fechaHora, EstadoTurno estado) {
         this.id = id;
         this.paciente = paciente;
         this.medico = medico;
-        this.fechaHora = LocalDateTime.of();
+        this.fechaHora = fechaHora;
         this.estado = estado;
     }
 

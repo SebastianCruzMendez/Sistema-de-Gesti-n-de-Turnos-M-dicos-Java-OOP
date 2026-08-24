@@ -115,7 +115,8 @@ public class Main {
 
                     Paciente paciente = servicio.buscarPorCedula(cedula);
                     Medico medico = servicio.buscarPorNombreApellido(nombre, apellido);
-                    Turno turno = new Turno(0, paciente, medico, EstadoTurno.PENDIENTE );
+
+                    Turno turno = new Turno(0, paciente, medico, null,EstadoTurno.PENDIENTE );
                     servicio.asignarTurno(turno);
                 }
 
