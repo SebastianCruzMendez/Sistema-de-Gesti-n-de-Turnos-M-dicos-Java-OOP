@@ -67,4 +67,13 @@ public Paciente reconstruir(int id, String nombre, String cedula, String apellid
     }
 
 
+    @Override
+    public String getDatosRegistro() {
+        return "";
+    }
+
+    @Override
+    public boolean esValido() {
+        return false;
+    }
 }
