@@ -3,6 +3,7 @@ import co.generation.clinica.model.*;
 import co.generation.clinica.service.ClinicaService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -114,17 +115,23 @@ public class Main {
                     nombre = scan.nextLine();
                     System.out.println("Ingresa Apellido del Medico");
                     apellido = scan.nextLine();
-
+                    System.out.println("Ingresa el año");
+                    int anio = scan.nextInt();
+                    System.out.println("Ingresa el mes");
+                    int mes = scan.nextInt();
+                    System.out.println("Ingresa el dia");
+                    int dia = scan.nextInt();
+                    System.out.println("Ingresa la hora");
+                    int hora = scan.nextInt();
+                    System.out.println("Ingresa el minuto");
+                    int minuto = scan.nextInt();
+                    LocalDateTime fecha = LocalDateTime.of(anio, mes, dia, hora, minuto) ;
                     Paciente paciente = servicio.buscarPorCedula(cedula);
                     Medico medico = servicio.buscarPorNombreApellido(nombre, apellido);
 
-                    Turno turno = new Turno(0, paciente, medico, null,EstadoTurno.PENDIENTE );
+                    Turno turno = new Turno(0, paciente, medico, fecha,EstadoTurno.PENDIENTE );
                     servicio.asignarTurno(turno);
                 }
-
-                case 4 :{}
-                case 5 :{}
-                case 6 :{}
 
                 case 4 : {
                     System.out.print("Año (YYYY): ");
