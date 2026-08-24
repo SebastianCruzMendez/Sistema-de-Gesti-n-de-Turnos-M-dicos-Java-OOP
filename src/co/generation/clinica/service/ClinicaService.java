@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ClinicaService implements Consultable {
     private final List<Paciente> pacientes = new ArrayList<>();
@@ -35,12 +37,56 @@ public class ClinicaService implements Consultable {
         return List.of();
     }
 
-    public void listarPacientes() {
-        if (pacientes.isEmpty()) {
-            System.out.println("No hay pacientes registrados.");
+
+    // --- MÉTODOS DE MÉDICO ---
+    public Medico buscarPorNombreApellido(String nombre, String apellido) {
+        if (nombre == null || apellido == null) {
+            return null;
+        }
+        for (Object obj : medicos) {
+            if (obj instanceof Medico) {
+                Medico m = (Medico) obj;
+                if (m.getNombre().equalsIgnoreCase(nombre.trim()) &&
+                        m.getApellido().equalsIgnoreCase(apellido.trim())) {
+                    return m;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void listarMedicos() {
+        if (medicos.isEmpty()) {
+            System.out.println("No hay médicos registrados.");
             return;
         }
-        List<Paciente> copia = new ArrayList<>(pacientes);
+
+        List<Medico> copia = new ArrayList<>();
+        for (Object obj : medicos) {
+            if (obj instanceof Medico) {
+                copia.add((Medico) obj);
+            }
+        }
+
+        copia.sort(Comparator.comparing(Medico::getEspecialidad)
+                .thenComparing(Medico::getApellido, String.CASE_INSENSITIVE_ORDER));
+        for (Medico m : copia) {
+            System.out.println(m);
+        }
+
+    // fin
+
+
+
+
+
+
+
+
+
+    public List<String> getPacientes() {
+        return pacientes;
+    }
 
         copia.sort(Comparator.comparing(Paciente::getApellido)
                 .thenComparing(Paciente::getNombre));
