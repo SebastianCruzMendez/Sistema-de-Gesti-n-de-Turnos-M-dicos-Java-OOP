@@ -2,6 +2,8 @@ import co.generation.clinica.datos.DatosCSV;
 import co.generation.clinica.model.*;
 import co.generation.clinica.service.ClinicaService;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -118,10 +120,54 @@ public class Main {
                     Turno turno = new Turno(0, paciente, medico, EstadoTurno.PENDIENTE );
                     servicio.asignarTurno(turno);
                 }
+                case 3 :{}
+                case 4 : {
+                    System.out.print("Año (YYYY): ");
+                    int a = Integer.parseInt(scan.nextLine());
+                    System.out.print("Mes (1-12): ");
+                    int m = Integer.parseInt(scan.nextLine());
+                    System.out.print("Día (1-31): ");
+                    int d = Integer.parseInt(scan.nextLine());
+                    List<Turno> delDia = servicio.listarTurnosDelDia(LocalDate.of(a, m, d));
+                    if (delDia.isEmpty()) {
+                        System.out.println("No hay turnos registrados para ese día.");
+                    } else {
+                        delDia.forEach(System.out::println);
+                    }
+                    break;
+                }
+                case 5 : {
+                    System.out.println("\n--- CANCELAR TURNO ---");
+                    System.out.print("Ingrese el ID del turno a cancelar: ");
+                    try {
+                        int idTurno = Integer.parseInt(scan.nextLine().trim());
+                        servicio.cancelarTurno(idTurno);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error: Debe ingresar un ID numérico entero.");
+                    } catch (Exception e) {
+                        System.out.println("Error al cancelar el turno: " + e.getMessage());
+                    }
+                }
+                case 6 : {
+                    System.out.println("\n--- VER TURNOS POR MÉDICO ---");
+                    System.out.print("Nombre del médico: ");
+                    nombre = scan.nextLine().trim();
+                    System.out.print("Apellido del médico: ");
+                    apellido = scan.nextLine().trim();
 
-                case 4 :{}
-                case 5 :{}
-                case 6 :{}
+                    Medico medicoEncontrado = servicio.buscarPorNombreApellido(nombre, apellido);
+
+                    if (medicoEncontrado == null) {
+                        System.out.println("Error: No se encontró ningún médico con el nombre " + nombre + " " + apellido);
+                    } else {
+                        List<Turno> turnosMedico = servicio.buscarPorMedico(medicoEncontrado);
+                        if (turnosMedico.isEmpty()) {
+                            System.out.println("El medico " + medicoEncontrado.getNombre() + " " + medicoEncontrado.getApellido() + " no tiene turnos asignados.");
+                        } else {
+                            System.out.println("\nTurnos encontrados para el médico " + medicoEncontrado + ":");
+                            turnosMedico.forEach(System.out::println);
+                        }
+                    }}
                 case 7 :{}
                 case 8 :{}
                 case 9 :{}
