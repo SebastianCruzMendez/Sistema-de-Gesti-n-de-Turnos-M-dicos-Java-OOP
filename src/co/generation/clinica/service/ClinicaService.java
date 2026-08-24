@@ -162,6 +162,52 @@ public class ClinicaService implements Consultable {
         }
 
         // fin---------------- Brayan ---------------------
+    // inicio sebastian_______________________________________
+        // --- MÉTODO 1: listarPacientes() ---
+        public void listarPacientes() {
+            if (pacientes.isEmpty()) {
+                System.out.println("No hay pacientes registrados.");
+                return;
+            }
+            // Crear copia para no alterar la lista original al ordenar
+            List<Paciente> copia = new ArrayList<>(pacientes);
+
+            // Ordenar por apellido y luego por nombre usando Comparator
+            copia.sort(Comparator.comparing(Paciente::getApellido)
+                    .thenComparing(Paciente::getNombre));
+
+            // Imprimir cada paciente con su toString()
+            for (Paciente p : copia) {
+                System.out.println(p);
+            }
+        }
+
+    // --- MÉTODO 2: registrarMedico(Medico m) ---
+    public void registrarMedico(Medico m) {
+        // 1. Validar campos obligatorios del médico
+        if (!m.esValido()) {
+            System.out.println("Error: Los datos del médico no son válidos.");
+            return;
+        }
+
+        // 2. Verificar duplicados (contains invoca al equals() por nombre y apellido)
+        if (medicos.contains(m)) {
+            System.out.println("Error: Ya existe un médico registrado con ese nombre y apellido.");
+            return;
+        }
+
+        // 3. Asignar ID incremental (máximo ID actual + 1, o 1 si la lista está vacía)
+        int nuevoId = medicos.stream()
+                .mapToInt(Medico::getId)
+                .max()
+                .orElse(0) + 1;
+        m.setId(nuevoId);
+
+        // 4. Agregar a la lista e imprimir mensaje de éxito
+        medicos.add(m);
+        System.out.println("Médico registrado con éxito: " + m.getDatosRegistro());
+    }
+    //Final sebastian________________________________________________________________________
         public List<Paciente> getPacientes () {
             return pacientes;
         }
