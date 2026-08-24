@@ -19,6 +19,21 @@ public class Turno {
         this.estado = estado;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Turno turno = (Turno) o;
+        return Objects.equals(medico, turno.medico) &&
+                Objects.equals(fechaHora, turno.fechaHora);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(medico, fechaHora);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,6 +56,7 @@ public class Turno {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
