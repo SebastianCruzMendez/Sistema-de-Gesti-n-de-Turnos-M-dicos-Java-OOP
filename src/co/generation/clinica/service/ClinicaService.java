@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ClinicaService implements Consultable {
     private List<Paciente> pacientes;
@@ -84,6 +86,54 @@ public class ClinicaService implements Consultable {
     }
 
     public List<Paciente> getPacientes() {
+
+    // --- MÉTODOS DE MÉDICO ---
+    public Medico buscarPorNombreApellido(String nombre, String apellido) {
+        if (nombre == null || apellido == null) {
+            return null;
+        }
+        for (Object obj : medicos) {
+            if (obj instanceof Medico) {
+                Medico m = (Medico) obj;
+                if (m.getNombre().equalsIgnoreCase(nombre.trim()) &&
+                        m.getApellido().equalsIgnoreCase(apellido.trim())) {
+                    return m;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void listarMedicos() {
+        if (medicos.isEmpty()) {
+            System.out.println("No hay médicos registrados.");
+            return;
+        }
+
+        List<Medico> copia = new ArrayList<>();
+        for (Object obj : medicos) {
+            if (obj instanceof Medico) {
+                copia.add((Medico) obj);
+            }
+        }
+
+        copia.sort(Comparator.comparing(Medico::getEspecialidad)
+                .thenComparing(Medico::getApellido, String.CASE_INSENSITIVE_ORDER));
+        for (Medico m : copia) {
+            System.out.println(m);
+        }
+
+    // fin
+
+
+
+
+
+
+
+
+
+    public List<String> getPacientes() {
         return pacientes;
     }
 
